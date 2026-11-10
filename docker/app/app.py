@@ -1,7 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
-import os
 import socket
+
 
 class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -13,7 +13,7 @@ class Handler(BaseHTTPRequestHandler):
             "message": "Backend is running successfully"
         }
 
-        body = json.dumps(response, indent=4).encode()
+        body = json.dumps(response, indent=4).encode("utf-8")
 
         self.send_response(200)
         self.send_header("Content-Type", "application/json")
@@ -24,7 +24,16 @@ class Handler(BaseHTTPRequestHandler):
     def log_message(self, format, *args):
         print("%s - %s" % (self.address_string(), format % args))
 
-server = HTTPServer(("0.0.0.0", 8000), Handler)
 
-print("Python backend running on port 8000")
-server.serve_forever()
+def create_server(host="0.0.0.0", port=8000):
+    return HTTPServer((host, port), Handler)
+
+
+def main():
+    server = create_server()
+    print("Python backend running on port 8000")
+    server.serve_forever()
+
+
+if __name__ == "__main__":
+    main()

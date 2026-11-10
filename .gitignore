@@ -11,3 +11,9 @@
 *.tfstate
 *.tfstate.*
 crash.log
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
